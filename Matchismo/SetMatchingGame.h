@@ -20,6 +20,6 @@
 
 @property(nonatomic) int simultaneousCardsMatch;
 @property(nonatomic, readonly) int score;
-@property(nonatomic, readonly) NSString* lastAction;
+@property(nonatomic, readonly) NSMutableAttributedString* lastAction;
 
 @end

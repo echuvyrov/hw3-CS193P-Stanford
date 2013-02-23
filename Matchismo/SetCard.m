@@ -10,34 +10,49 @@
 
 @implementation SetCard
 
-@synthesize suit = _suit;   // because we provide both setter & getter
+@synthesize shape = _shape;   // because we provide both setter & getter
 
 -(int)match:(NSArray *) otherCards
 {
     int score = 0;
-    if(otherCards.count == 1) {
-        SetCard *otherCard = [otherCards lastObject];
-        if([otherCard.suit isEqualToString:self.suit]){
-            score = 1;
-        } else if (otherCard.rank == self.rank) {
-            score = 4;
-        }
-        
-    } else if (otherCards.count == 2) {
+    BOOL allShapesSameOrDifferent = FALSE;
+    BOOL allColorsSameOrDifferent = FALSE;
+    BOOL allShadesSameOrDifferent = FALSE;
+    BOOL allCountsSameOrDifferent = FALSE;
+    
+    if(otherCards.count == 2) {
         SetCard *otherCard = [otherCards lastObject];
         SetCard *thirdCard = [otherCards objectAtIndex:0];
         
-        //try to match all 3
-        if([otherCard.suit isEqualToString:self.suit] && [thirdCard.suit isEqualToString:self.suit]){
-            score = 3;
-        } else if (otherCard.rank == self.rank && thirdCard.rank == self.rank) {
-            score = 12;
-            //try to match at least two
-            
-        } else if ([otherCard.suit isEqualToString:self.suit] || [otherCard.suit isEqualToString:thirdCard.suit] || [self.suit isEqualToString:thirdCard.suit]){
-            score = 1;
-        } else if (otherCard.rank == self.rank || otherCard.rank == thirdCard.rank || thirdCard.suit == self.suit) {
-            score = 2;
+        //3 elements must be all the same or they must all be different
+        if([otherCard.shape isEqualToString:self.shape] && [thirdCard.shape isEqualToString:self.shape]){
+            allShapesSameOrDifferent = TRUE;
+        }
+        if ([otherCard.shapeColor isEqual:self.shapeColor] && [thirdCard.shapeColor isEqual:self.shapeColor]) {
+            allColorsSameOrDifferent = TRUE;
+        }
+        if (otherCard.shapeCount == self.shapeCount && thirdCard.shapeCount == self.shapeCount) {
+            allCountsSameOrDifferent = TRUE;
+        }
+        if (otherCard.shapeShade == self.shapeShade && thirdCard.shapeShade == self.shapeShade) {
+            allShadesSameOrDifferent = TRUE;
+        }
+        // now compare when all three are not equal
+        if(![otherCard.shape isEqualToString:self.shape] && ![thirdCard.shape isEqualToString:self.shape] && ![thirdCard.shape isEqualToString:otherCard.shape]){
+            allShapesSameOrDifferent = TRUE;
+        }
+        if (![otherCard.shapeColor isEqual:self.shapeColor] && ![thirdCard.shapeColor isEqual:self.shapeColor] && ![thirdCard.shapeColor isEqual:otherCard.shapeColor]) {
+            allColorsSameOrDifferent = TRUE;
+        }
+        if (otherCard.shapeCount != self.shapeCount && thirdCard.shapeCount != self.shapeCount && thirdCard.shapeCount != otherCard.shapeCount) {
+            allCountsSameOrDifferent = TRUE;
+        }
+        if (otherCard.shapeShade != self.shapeShade && thirdCard.shapeShade != self.shapeShade && thirdCard.shapeShade != otherCard.shapeShade) {
+            allShadesSameOrDifferent = TRUE;
+        }
+        
+        if(allColorsSameOrDifferent && allCountsSameOrDifferent && allShadesSameOrDifferent && allShapesSameOrDifferent) {
+            score = 13;
         }
     }
     
@@ -45,46 +60,72 @@
 }
 
 // Overriding the contents property from card class.
--(NSString *)contents
+-(NSAttributedString *)contents
 {
-    NSArray *rankStrings = [SetCard rankStrings];
-    NSString* retVal = [rankStrings[self.rank] stringByAppendingString:self.suit];
+    //get initial shape and print it a number of times
+    NSString *str = @"";
+    for(int i= 0; i < self.shapeCount; i++)
+    {
+        str=[str stringByAppendingString:self.shape];
+    }
+    
+    NSMutableAttributedString *retVal = [[NSMutableAttributedString alloc] initWithString:str];
+    NSRange range = NSMakeRange(0, [retVal length]);
+    
+    [retVal addAttributes:@{ NSFontAttributeName : [UIFont systemFontOfSize:15],
+        NSForegroundColorAttributeName : [self.shapeColor colorWithAlphaComponent:self.shapeShade],
+        NSStrokeWidthAttributeName : @-5,
+        NSStrokeColorAttributeName : self.shapeColor,
+     } range:range];
+    
     return retVal;
 }
 
-+ (NSArray *)validSuits
++ (NSArray *)validShapes
 {
-    return @[@"♥", @"♦", @"♠", @"♣"];
+    return @[@"●", @"■", @"▲"];
 }
 
-- (void)setSuit:(NSString *)suit
++ (NSArray *)shapeColors
 {
-    if([[SetCard validSuits] containsObject:suit]) {
-        _suit = suit;
+    return @[[UIColor redColor] , [UIColor greenColor], [UIColor purpleColor]];
+}
+
++ (NSArray *)shapeShades
+{
+    return @[@0, @0.5, @1];
+}
+
++ (NSArray *)shapeCounts
+{
+    return @[@1, @2, @3];
+}
+
+- (void)setShape:(NSString *)shape
+{
+    if([[SetCard validShapes] containsObject:shape]) {
+        _shape = shape;
     }
 }
 
-- (NSString *)suit
+- (NSString *)shape
 {
-    return _suit ? _suit : @"?";
+    return _shape ? _shape : @"?";
 }
 
-+ (NSArray *)rankStrings
+- (UIColor *)shapeColor
 {
-    return @[@"?", @"A", @"2", @"3", @"4", @"5", @"6",
-    @"7", @"8", @"9", @"10", @"J", @"Q", @"K"];
+    return _shapeColor ? _shapeColor : [UIColor blackColor];
 }
 
-+ (NSUInteger)maxRank
+- (CGFloat)shapeShade
 {
-    return [self rankStrings].count - 1;
+    return _shapeShade ? _shapeShade : 0.0f;
 }
 
-- (void)setRank:(NSUInteger)rank
+- (NSUInteger)shapeCount
 {
-    if (rank <= [SetCard maxRank]) {    // needs to be <= to include kings
-        _rank = rank;
-    }
+    return _shapeCount? _shapeCount : 0;
 }
 
 

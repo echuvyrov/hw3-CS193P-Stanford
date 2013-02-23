@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Deck.h"
 
 @interface GameViewController : UIViewController
+
+@property (strong, nonatomic) Deck *cardDeck;
 
 @end

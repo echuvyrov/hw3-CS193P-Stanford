@@ -99,8 +99,8 @@
 				90CFA77316D032BA00B92097 /* SetCardDeck.h */,
 				90CFA77416D032BA00B92097 /* SetCardDeck.m */,
 				906EDE3516BDB30A00FF59DF /* Card.h */,
-				906EDE3616BDB30A00FF59DF /* Card.m */,
 				906EDE3916BDB30A00FF59DF /* Deck.h */,
+				906EDE3616BDB30A00FF59DF /* Card.m */,
 				906EDE3A16BDB30A00FF59DF /* Deck.m */,
 				90CE7CA916C5AD6D00DBE7B0 /* CardMatchingGame.h */,
 				90CE7CAA16C5AD6D00DBE7B0 /* CardMatchingGame.m */,
@@ -251,6 +251,7 @@
 				90A7C17C16BDAE7D0037D18D /* main.m in Sources */,
 				90A7C18016BDAE7D0037D18D /* matchismoAppDelegate.m in Sources */,
 				906EDE3B16BDB30A00FF59DF /* Card.m in Sources */,
+				90CFA77D16D4736500B92097 /* GameViewController.m in Sources */,
 				906EDE3C16BDB30A00FF59DF /* CardGameViewController.m in Sources */,
 				906EDE3D16BDB30A00FF59DF /* Deck.m in Sources */,
 				906EDE4216BDB33D00FF59DF /* PlayingCard.m in Sources */,
@@ -260,7 +261,6 @@
 				90CFA76F16D0297F00B92097 /* SetMatchingGame.m in Sources */,
 				90CFA77216D0328F00B92097 /* SetCard.m in Sources */,
 				90CFA77516D032BA00B92097 /* SetCardDeck.m in Sources */,
-				90CFA77D16D4736500B92097 /* GameViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

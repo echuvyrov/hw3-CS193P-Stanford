@@ -11,10 +11,14 @@
 
 @interface SetCard : Card
 
-@property (strong, nonatomic)NSString *suit;
-@property (nonatomic) NSUInteger rank;
+@property (strong, nonatomic)NSString *shape;
+@property (strong, nonatomic)UIColor *shapeColor;
+@property (nonatomic)CGFloat shapeShade;
+@property (nonatomic) NSUInteger shapeCount;
 
-+ (NSArray *)validSuits;
-+ (NSUInteger)maxRank;
++ (NSArray *)validShapes;
++ (NSArray *)shapeColors;
++ (NSArray *)shapeShades;
++ (NSArray *)shapeCounts;
 
 @end

@@ -80,7 +80,7 @@
                     } else if (self.simultaneousCardsMatch == 3) {
                         
                         for(Card *thirdCard in self.cards) {
-                            if(thirdCard.isFaceUp && !thirdCard.isUnPlayable && ![thirdCard.contents isEqualToString:otherCard.contents]) {
+                            if(thirdCard.isFaceUp && !thirdCard.isUnPlayable && ![thirdCard.contents isEqualToAttributedString:otherCard.contents]) {
                                 
                                 //3-card matching logic
                                 int matchScore = [card match:@[otherCard, thirdCard]];
