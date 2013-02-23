@@ -12,7 +12,7 @@
 
 @property(strong, nonatomic) NSMutableArray *cards;
 @property(nonatomic) int score;
-@property(nonatomic) NSString* lastAction;
+@property(nonatomic) NSMutableAttributedString* lastAction;
 
 @end
 
@@ -59,7 +59,9 @@
     if(!card.isUnPlayable) {
         if(!card.isFaceUp) {
             
-            self.lastAction = [NSString stringWithFormat:@"Fliped %@", card.contents];
+            self.lastAction = [[NSMutableAttributedString alloc] initWithString: [NSString stringWithFormat:@"Flipped "]];
+            [self.lastAction appendAttributedString:card.contents];
+            
             for(Card *otherCard in self.cards) {
                 if(otherCard.isFaceUp && !otherCard.isUnPlayable) {
                     if(self.simultaneousCardsMatch == 2 ||self.simultaneousCardsMatch == 0) {
@@ -70,34 +72,31 @@
                             otherCard.unplayable = YES;
                             card.unplayable = YES;
                             self.score += matchScore * MATCH_BONUS_2CARDGAME;
-                            self.lastAction = [NSString stringWithFormat:@"Matched %@ with %@", card.contents, otherCard.contents];
+                            
+                            NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:@"Matched "];
+                            [attrString appendAttributedString:card.contents];
+                            [attrString appendAttributedString:[[NSMutableAttributedString alloc] initWithString:@", "]];
+                            [attrString appendAttributedString:otherCard.contents];
+                            NSString *scoreAddition = [NSString stringWithFormat:@" +%d points", matchScore * MATCH_BONUS_2CARDGAME];
+                            [attrString appendAttributedString:[[NSMutableAttributedString alloc] initWithString:scoreAddition]];
+                            
+                            self.lastAction = attrString;
+                            
                         } else {
                             otherCard.faceUp = NO;
                             self.score -= MISMATCH_PENALTY_2CARDGAME;
-                            self.lastAction = [NSString stringWithFormat:@"%@ and %@ do not match, -%d points", card.contents, otherCard.contents, MISMATCH_PENALTY_2CARDGAME];
+                            
+                            NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:@""];
+                            [attrString appendAttributedString:card.contents];
+                            [attrString appendAttributedString:[[NSMutableAttributedString alloc] initWithString:@", "]];
+                            [attrString appendAttributedString:otherCard.contents];
+                            [attrString appendAttributedString:[[NSMutableAttributedString alloc] initWithString:@" do not match"]];
+                            NSString *scoreDeduction = [NSString stringWithFormat:@" -%d points", MISMATCH_PENALTY_2CARDGAME];
+                            [attrString appendAttributedString:[[NSMutableAttributedString alloc] initWithString:scoreDeduction]];
+                            
+                            self.lastAction = attrString;
                         }
                     
-                    } else if (self.simultaneousCardsMatch == 3) {
-                        
-                        for(Card *thirdCard in self.cards) {
-                            if(thirdCard.isFaceUp && !thirdCard.isUnPlayable && ![thirdCard.contents isEqualToAttributedString:otherCard.contents]) {
-                                
-                                //3-card matching logic
-                                int matchScore = [card match:@[otherCard, thirdCard]];
-                                if(matchScore){
-                                    thirdCard.unplayable = YES;
-                                    otherCard.unplayable = YES;
-                                    card.unplayable = YES;
-                                    self.score += matchScore * MATCH_BONUS_3CARDGAME;
-                                    self.lastAction = [NSString stringWithFormat:@"Matched %@, %@ and %@", card.contents, otherCard.contents, thirdCard.contents];
-                                } else {
-                                    thirdCard.faceUp = NO;
-                                    otherCard.faceUp = NO;
-                                    self.score -= MISMATCH_PENALTY_3CARDGAME;
-                                    self.lastAction = [NSString stringWithFormat:@"%@, %@ and %@ do not match, -%d points", card.contents, otherCard.contents, thirdCard.contents, MISMATCH_PENALTY_3CARDGAME];
-                                }
-                            }
-                        }
                     }
                 }
             }

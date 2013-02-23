@@ -59,7 +59,7 @@
     if(!card.isUnPlayable) {
         if(!card.isFaceUp) {
             
-            self.lastAction = [[NSMutableAttributedString alloc] initWithString: [NSString stringWithFormat:@"Fliped "]];
+            self.lastAction = [[NSMutableAttributedString alloc] initWithString: [NSString stringWithFormat:@"Flipped "]];
             [self.lastAction appendAttributedString:card.contents];
             
             for(Card *otherCard in self.cards) {
@@ -82,7 +82,7 @@
                                 [attrString appendAttributedString:otherCard.contents];
                                 [attrString appendAttributedString:[[NSMutableAttributedString alloc] initWithString:@" and "]];
                                 [attrString appendAttributedString:thirdCard.contents];
-                                NSString *scoreAddition = [NSString stringWithFormat:@"+%d points", matchScore];
+                                NSString *scoreAddition = [NSString stringWithFormat:@" +%d points", matchScore];
                                 [attrString appendAttributedString:[[NSMutableAttributedString alloc] initWithString:scoreAddition]];
                                 
                                 self.lastAction = attrString;
@@ -101,7 +101,7 @@
                                 [attrString appendAttributedString:[[NSMutableAttributedString alloc] initWithString:@" and "]];
                                 [attrString appendAttributedString:thirdCard.contents];
                                 [attrString appendAttributedString:[[NSMutableAttributedString alloc] initWithString:@" do not match"]];
-                                NSString *scoreDeduction = [NSString stringWithFormat:@"-%d points", MISMATCH_PENALTY_3CARDGAME];
+                                NSString *scoreDeduction = [NSString stringWithFormat:@" -%d points", MISMATCH_PENALTY_3CARDGAME];
                                 [attrString appendAttributedString:[[NSMutableAttributedString alloc] initWithString:scoreDeduction]];
                                 
                                 self.lastAction = attrString;
