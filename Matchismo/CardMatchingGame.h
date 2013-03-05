@@ -8,18 +8,9 @@
 
 #import <Foundation/Foundation.h>
 #import "PlayingCardDeck.h"
+#import "MatchingGame.h"
 
-@interface CardMatchingGame : NSObject
+@interface CardMatchingGame : MatchingGame
 
-//Designated Initializer
--(id) initWithCardCount:(NSUInteger) cardCount
-              usingDeck:(Deck*) deck;
-
--(void) flipCardAtIndex:(NSUInteger)index;
--(Card*) cardAtIndex:(NSUInteger) index;
-
-@property(nonatomic) int simultaneousCardsMatch;
-@property(nonatomic, readonly) int score;
-@property(nonatomic, readonly) NSMutableAttributedString* lastAction;
 
 @end

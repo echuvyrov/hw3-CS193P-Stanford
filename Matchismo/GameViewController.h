@@ -8,7 +8,15 @@
 
 #import <UIKit/UIKit.h>
 #import "Deck.h"
+#import "MatchingGame.h"
 
 @interface GameViewController : UIViewController
+
+// all of the following methods must be overriden by concrete subclasses
+- (Deck *)createDeck; // abstract
+@property (readonly, nonatomic) NSUInteger startingCardCount; // abstract
+@property (strong, nonatomic) MatchingGame *game; // abstract
+
+- (void)updateCell:(UICollectionViewCell *)cell usingCard:(Card *)card; // abstract
 
 @end

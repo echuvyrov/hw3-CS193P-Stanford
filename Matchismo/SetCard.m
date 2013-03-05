@@ -83,7 +83,7 @@
 
 + (NSArray *)validShapes
 {
-    return @[@"●", @"■", @"▲"];
+    return @[@"d", @"s", @"o"];
 }
 
 + (NSArray *)shapeColors

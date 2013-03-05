@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "GameViewController.h"
+#import "MatchingGame.h"
 
 @interface SetGameViewController : GameViewController
 
